@@ -1,0 +1,15 @@
+__pycache__
+*.pyc
+venv/
+.env
+.env.*
+*.log
+.pytest_cache/
+.ipynb_checkpoints/
+data/
+evaluation/
+*.ipynb
+.git/
+*.md
+azure_mcp_readme.md
+skills-lock.json

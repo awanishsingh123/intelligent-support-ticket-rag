@@ -1,0 +1,139 @@
+/* tokens.css — design system primitives
+ * Visual system for the Customer Support Ticket System.
+ * Anchored to DESIGN.md. OKLCH throughout. Consume via CSS custom properties.
+ */
+
+:root {
+  /* Color — surfaces */
+  --bg:             oklch(1.000 0.000 0);     /* pure white */
+  --surface:        oklch(0.985 0.002 80);    /* white pulled 8% toward ink — cards, panels */
+
+  /* Color — ink */
+  --ink:            oklch(0.205 0.013 60);    /* body text */
+  --ink-soft:       oklch(0.350 0.012 60);    /* secondary headings, strong labels */
+  --muted:          oklch(0.485 0.010 60);    /* secondary text, helper copy */
+  --muted-soft:     oklch(0.620 0.008 60);    /* placeholder, disabled label */
+
+  /* Color — brand */
+  --primary:        oklch(0.620 0.180 56);    /* burnt honey — CTA fill, focus ring, current state */
+  --primary-hover:  oklch(0.565 0.180 56);
+  --primary-active: oklch(0.520 0.180 56);
+  --primary-ink:    oklch(1.000 0.000 0);    /* text on primary — pure white */
+  --primary-soft:   oklch(0.955 0.025 60);   /* primary tint at ~10% chroma — focus halo, soft surface */
+
+  /* Color — accent (links, info markers) */
+  --accent:         oklch(0.450 0.105 250);   /* slate-blue */
+  --accent-hover:   oklch(0.380 0.105 250);
+  --accent-ink:     oklch(1.000 0.000 0);
+  --accent-soft:    oklch(0.950 0.020 250);
+
+  /* Color — borders */
+  --border:         oklch(0.910 0.005 60);
+  --border-strong:  oklch(0.820 0.008 60);
+
+  /* Color — status */
+  --success:        oklch(0.520 0.130 150);
+  --success-ink:    oklch(1.000 0.000 0);
+  --success-soft:   oklch(0.965 0.020 150);
+  --success-border: oklch(0.880 0.060 150);
+
+  --danger:         oklch(0.500 0.180 25);
+  --danger-ink:     oklch(1.000 0.000 0);
+  --danger-soft:    oklch(0.965 0.020 25);
+  --danger-border:  oklch(0.870 0.060 25);
+
+  --warn:           oklch(0.620 0.140 75);
+  --warn-ink:       oklch(0.205 0.013 60);
+  --warn-soft:      oklch(0.970 0.030 80);
+
+  /* Typography — families */
+  --font-sans:      "Inter Variable", "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono:      ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+
+  /* Typography — sizes (fixed rem, product register) */
+  --fs-xs:    0.75rem;     /* 12px — meta */
+  --fs-sm:    0.875rem;    /* 14px — small body, captions, error text */
+  --fs-base:  1rem;        /* 16px — body, inputs */
+  --fs-md:    1.0625rem;   /* 17px — large body, hero subtitle */
+  --fs-lg:    1.25rem;     /* 20px — h3, section titles */
+  --fs-xl:    1.5rem;      /* 24px — h2 */
+  --fs-2xl:   1.875rem;    /* 30px — page h1 (form) */
+  --fs-3xl:   2.25rem;     /* 36px — thank-you h1 */
+
+  /* Typography — line heights */
+  --lh-tight:    1.15;
+  --lh-snug:     1.35;
+  --lh-normal:   1.55;
+  --lh-relaxed:  1.7;
+
+  /* Typography — weights */
+  --fw-regular:   400;
+  --fw-medium:    500;
+  --fw-semibold:  600;
+  --fw-bold:      700;
+
+  /* Typography — letter-spacing */
+  --tracking-tight:    -0.015em;
+  --tracking-normal:  0;
+  --tracking-wide:     0.04em;
+
+  /* Spacing — 4px base */
+  --space-1:   0.25rem;
+  --space-2:   0.5rem;
+  --space-3:   0.75rem;
+  --space-4:   1rem;
+  --space-5:   1.5rem;
+  --space-6:   2rem;
+  --space-7:   2.5rem;
+  --space-8:   3rem;
+  --space-9:   4rem;
+  --space-10:  5rem;
+  --space-12:  7.5rem;
+
+  /* Radii */
+  --radius-sm:  6px;     /* tiny pills, checkboxes */
+  --radius-md:  8px;     /* inputs, small chips */
+  --radius-lg:  10px;    /* buttons, response card */
+  --radius-xl:  12px;    /* outer cards */
+  --radius-full: 9999px; /* full pill, success badge */
+
+  /* Layout */
+  --container-form:  560px;
+  --container-page:  720px;
+
+  /* Motion */
+  --ease-out-quart:   cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-quart:    cubic-bezier(0.55, 0, 1, 0.45);
+  --ease-in-out:      cubic-bezier(0.45, 0, 0.55, 1);
+  --dur-fast:         120ms;
+  --dur-base:         150ms;
+  --dur-slow:         250ms;
+  --dur-page:         350ms;
+
+  /* Focus ring */
+  --ring-color:       var(--primary);
+  --ring-offset:      2px;
+  --ring-width:       2px;
+  --ring-offset-bg:   var(--bg);
+
+  /* Z-index scale (semantic) */
+  --z-base:       0;
+  --z-sticky:     10;
+  --z-dropdown:   20;
+  --z-modal-bg:   40;
+  --z-modal:      50;
+  --z-toast:      60;
+  --z-tooltip:    70;
+}
+
+/* Global reduced-motion guard. Every transition reduced to a 100ms crossfade or instant. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 100ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 100ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,10 @@
+name: support-ticket-api
+metadata:
+  template: bicep
+services:
+  api:
+    project: ../backend
+    host: containerapp
+    docker:
+      path: Dockerfile
+    language: python

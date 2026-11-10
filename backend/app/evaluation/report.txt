@@ -1,0 +1,13 @@
+========================================================================
+  RAG EVALUATION: WITH SVM CLASSIFIER  vs  WITHOUT CLASSIFIER
+========================================================================
+  Valid queries: 8/8  |  SVM accuracy: 88%
+
+  Metric                            With ML Without ML
+  -------------------------------- -------- ----------
+  Retrieval: Type Precision            88%        90%
+  Retrieval: Type Diversity             1.0        1.2
+  Embedding Similarity (vs GT)        0.762      0.756
+
+  Generation: ML wins 3, NoML wins 1, Ties 4
+========================================================================
