@@ -1,3 +1,4 @@
+
 import pickle
 from pathlib import Path
 from collections import defaultdict
@@ -21,21 +22,25 @@ class Knowledge():
     def __ensure_index(self):
         pc = Pinecone(api_key=settings.PINECONE_API_KEY)
         existing = [i["name"] for i in pc.list_indexes()]
+
         if self.__index_name not in existing:
             raise ValueError(
                 f"Pinecone index '{self.__index_name}' does not exist. "
                 "Create it manually in the Pinecone console first."
             )
+
         return pc.Index(self.__index_name)
 
     @staticmethod
     def __build_bm25_by_type(docs):
         by_type = defaultdict(list)
+
         for d in docs:
             key = d.metadata.get("type") or "__none__"
             by_type[key].append(d)
 
         bm25_by_type = {}
+
         for type_name, group in by_type.items():
             retriever = BM25Retriever.from_documents(group)
             retriever.k = 10
@@ -54,20 +59,50 @@ class Knowledge():
             metadata_columns=["answer", "type"]
         )
 
-        docs = loader.load()
+        # docs = loader.load()
+        docs = loader.load()[:50]
 
         index = self.__ensure_index()
 
-        vector_db = PineconeVectorStore(index=index, embedding=self.__embed)
+        vector_db = PineconeVectorStore(
+            index=index,
+            embedding=self.__embed
+        )
 
-        batch_size = 100
+        batch_size = 10
+        total_batches = (len(docs) + batch_size - 1) // batch_size
+
         for i in range(0, len(docs), batch_size):
-            vector_db.add_documents(docs[i:i + batch_size])
+            batch_number = (i // batch_size) + 1
+
+            print(
+                f"Processing batch {batch_number}/{total_batches}...",
+                flush=True
+            )
+
+            batch_docs = docs[i:i + batch_size]
+            ids = [
+                f"ticket-{j}"
+                for j in range(i, i + len(batch_docs))
+            ]
+
+            vector_db.add_documents(batch_docs, ids=ids)
+
+            print(
+                f"Completed: {min(i + batch_size, len(docs))}/{len(docs)}",
+                flush=True
+            )
+
+        self.__corpus_path and Path(self.__corpus_path).parent.mkdir(
+            parents=True,
+            exist_ok=True
+        )
 
         with open(self.__corpus_path, "wb") as f:
             pickle.dump(docs, f)
 
         bm25_by_type = self.__build_bm25_by_type(docs)
+
         with open(self.__bm25_path, "wb") as f:
             pickle.dump(bm25_by_type, f)
 

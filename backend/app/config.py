@@ -44,8 +44,10 @@ class Settings(BaseSettings):
 
     @property
     def chat_model(self):
-        return ChatOllama(model="minimax-m3:cloud", api_key=self.OLLAMA_API_KEY)
-        #return ChatGroq(model="llama-3.3-70b-versatile", api_key=self.GROQ_API_KEY)
+        return ChatGroq(
+            model="openai/gpt-oss-20b",
+            api_key=self.GROQ_API_KEY
+        )
 
     @property
     def rerank_model(self):
