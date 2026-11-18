@@ -1,4 +1,4 @@
-# Intelligent Support Ticket RAG System
+# README.md
 
 An AI-powered customer support application that classifies incoming support questions, retrieves relevant answers from a knowledge base, and generates a context-aware response using Retrieval-Augmented Generation (RAG).
 
